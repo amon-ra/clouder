@@ -249,7 +249,7 @@ class ClouderModel(models.AbstractModel):
             for key, job_id in self.env.context['clouder_jobs'].iteritems():
                 if job_obj.search([('id','=',job_id)]):
                     job = job_obj.browse(job_id)
-                    if job.state == 'started': 
+                    if job.state == 'started':
                         job.log = (job.log or '') +\
                             now.strftime('%Y-%m-%d %H:%M:%S') + ' : ' +\
                             message + '\n'
@@ -517,7 +517,7 @@ class ClouderModel(models.AbstractModel):
             cmd.insert(0, self.name + ' bash -c ')
             if username:
                 cmd.insert(0, '-u ' + username)
-            cmd.insert(0, 'docker exec')
+            cmd.insert(0, 'docker exec -i')
 
         self.log('host : ' + server.name)
         self.log('command : ' + ' '.join(cmd))
@@ -530,7 +530,7 @@ class ClouderModel(models.AbstractModel):
         # Pushing additional input
         if stdin_arg:
             chnl_stdin = channel.makefile('wb', -1)
-            for arg in chnl_stdin:
+            for arg in stdin_arg:
                 self.log('command : ' + arg)
                 chnl_stdin.write(arg)
                 chnl_stdin.flush()
@@ -747,4 +747,3 @@ def generate_random_password(size):
         random.choice(string.ascii_uppercase + string.ascii_lowercase
                       + string.digits)
         for _ in range(size))
-

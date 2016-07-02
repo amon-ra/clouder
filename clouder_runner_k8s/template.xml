@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_clouder_environment_form_inherit_k8s" model="ir.ui.view">
+          <field name="name">clouder.environment.form.inherit_k8s</field>
+          <field name="model">clouder.environment</field>
+          <field name="inherit_id" ref="clouder.view_clouder_environment_form" />
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='prefix']" position="after">
+                <field name="namespace"/>
+              </xpath>
+              <xpath expr="//field[@name='user_ids']" position="before">
+                <field name="server_ids"/>
+              </xpath>
+          </field>
+        </record>
+        <record id="apptype_k8s" model="clouder.application.type">
+            <field name="name">k8s</field>
+            <field name="system_user">root</field>
+            <field name="role_ids" eval="[(6, 0, [ref('clouder.role_no_backup')])]"/>
+        </record>
+
+        <record id="image_k8s" model="clouder.image">
+            <field name="name">img_k8s</field>
+            <field name="current_version">1</field>
+            <field name="privileged">True</field>
+            <field name="parent_from">oondeo/hyperkube</field>
+        </record>
+        <record id="image_version_k8s" model="clouder.image.version">
+            <field name="name">1</field>
+            <field name="image_id" ref="image_k8s"/>
+        </record>
+        <record id="image_k8s_volume_rootfs" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/rootfs</field>
+            <field name="hostpath">/</field>
+            <field name="readonly" eval="True"/>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_ver_run" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/var/run</field>
+            <field name="hostpath">/var/run</field>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_ver_run" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/var/log</field>
+            <field name="hostpath">/var/log</field>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_sys" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/sys</field>
+            <field name="hostpath">/sys</field>
+            <field name="readonly" eval="True"/>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_dev" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/dev</field>
+            <field name="hostpath">/dev</field>
+            <field name="readonly" eval="True"/>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_docker" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/var/lib/docker</field>
+            <field name="hostpath">/var/lib/docker</field>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_k8s_volumes" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/var/lib/kubelet</field>
+            <field name="hostpath">/var/lib/kubelet</field>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_certs" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/etc/ssl/certs</field>
+            <field name="hostpath">/etc/ssl/certs</field>
+            <field name="readonly" eval="True"/>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_etc" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/etc/kubernetes</field>
+            <field name="hostpath">/etc/kubernetes</field>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_volume_localtime" model="clouder.image.volume">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">/etc/localtime</field>
+            <field name="hostpath">/etc/localtime</field>
+            <field name="readonly" eval="True"/>
+            <field name="nosave" eval="True"/>
+        </record>
+        <record id="image_k8s_port_k8s" model="clouder.image.port">
+            <field name="image_id" ref="image_k8s"/>
+            <field name="name">kubernetes</field>
+            <field name="localport">8443</field>
+            <field name="expose">internet</field>
+        </record>
+
+
+
+
+        <record id="app_k8s" model="clouder.application">
+            <field name="name">kubernetes</field>
+            <field name="code">k8s</field>
+            <field name="current_version">1</field>
+            <field name="type_id" ref="apptype_k8s"/>
+            <field name="default_image_id" ref="image_k8s"/>
+            <field name="container_time_between_save">9999</field>
+            <field name="container_saverepo_change">30</field>
+            <field name="container_saverepo_expiration">90</field>
+            <field name="container_save_expiration">5</field>
+            <field name="base_time_between_save">9999</field>
+            <field name="base_saverepo_change">30</field>
+            <field name="base_saverepo_expiration">90</field>
+            <field name="base_save_expiration">5</field>
+        </record>
+
+    </data>
+</openerp>

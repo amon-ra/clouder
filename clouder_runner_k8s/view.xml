@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+      <record id="action_clouder_deployment_form" model="ir.actions.act_window">
+          <field name="name">Deployments</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">clouder.deployment</field>
+          <field name="domain">[]</field>
+          <field name="context">{'search_default_root': 1}</field>
+          <field name="view_type">form</field>
+      </record>
+
+      <menuitem action="action_clouder_deployment_form" id="menu_action_clouder_deployment_form" parent="clouder.menu_clouder_clouder"/>
+
+<record id="view_clouder_deployment_form" model="ir.ui.view">
+    <field name="name">clouder.deployment.form</field>
+    <field name="model">clouder.deployment</field>
+    <field name="arch" type="xml">
+        <form string="deployment" version="7.0">
+            <group col="4">
+                <field name="name"/>
+                <newline/>
+                <field name="environment_id"/>
+                <field name="suffix"/>
+                <field name="application_id"/>
+                <field name="server_id"/>
+                <field name="replicas" />
+                <newline/>
+                <!-- <field name="public"/> -->
+            </group>
+            <notebook>
+                <page string="General">
+                    <field name="option_ids" colspan="4">
+                        <tree string="Options" editable="bottom">
+                            <field name="name" domain="[('apptype_id.application_ids','in',parent.application_id),('type','=','deployment')]"/>
+                            <field name="value"/>
+                        </tree>
+                    </field>
+                    <field name="volume_ids" colspan="4" attrs="{'invisible': [('child_ids','!=', [])]}">
+                        <tree string="Volumes" editable="bottom">
+                            <field name="name"/>
+                            <field name="from_id"/>
+                            <field name="hostpath"/>
+                            <field name="user"/>
+                            <field name="readonly"/>
+                            <field name="nosave"/>
+                        </tree>
+                    </field>
+                    <field name="link_ids" colspan="4">
+                        <tree string="Links" editable="bottom">
+                            <field name="name" domain="[('application_id','=',parent.application_id),('deployment','=',True)]"/>
+                            <field name="target" domain="[('application_id.link_target_ids','in',name)]"/>
+                            <field name="deployed"/>
+                            <button name="deploy_" type="object" string="Reload"/>
+                            <button name="purge_" type="object" string="Purge"/>
+                        </tree>
+                    </field>
+                    <field name="child_ids" colspan="4">
+                        <tree string="Childs" editable="bottom">
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="server_id" attrs="{'readonly': [('child_id','!=', False)]}"/>
+                            <field name="child_id"/>
+                            <field name="save_id"/>
+                            <button name="create_child" type="object" string="Deploy" attrs="{'invisible': [('child_id','!=', False)]}"/>
+                            <button name="delete_child" type="object" string="Purge" attrs="{'invisible': [('child_id','=', False)]}"/>
+                        </tree>
+                    </field>
+
+                    <field name="labels_ids" colspan="4">
+                        <tree string="Label" editable="bottom">
+                            <field name="name"/>
+                            <field value="value"/>
+                        </tree>
+                    </field>
+                    <field name="annotations_ids" colspan="4">
+                        <tree string="Annotation" editable="bottom">
+                            <field name="name"/>
+                            <field value="value"/>
+                        </tree>
+                    </field>
+                    <button name="purge" string="Purge" type="object"/>
+                    <newline/>
+                    <button name="start" string="Restart" type="object"/>
+                    <button name="stop" string="Stop" type="object"/>
+                    <newline/>
+                    <field name="job_ids" colspan="4"/>
+                </page>
+                <!-- <page string="Save">
+                    <group col="4">
+                        <field name="backup_ids" widget="many2many_tags" domain="[('application_id.type_id.role_ids.name','=','backup')]"/>
+                        <field name="autosave"/>
+                        <field name="time_between_save"/>
+                        <field name="save_expiration"/>
+                        <newline/>
+                        <field name="date_next_save"/>
+                        <field name="save_comment"/>
+                    </group>
+                    <button name="save" string="Save" type="object"/>
+                </page> -->
+            </notebook>
+
+
+        </form>
+    </field>
+</record>
+
+<record id="view_clouder_deployment_tree" model="ir.ui.view">
+    <field name="name">clouder.deployment.tree</field>
+    <field name="model">clouder.deployment</field>
+    <field name="arch" type="xml">
+        <tree string="Deployments">
+            <field name="name"/>
+            <field name="server_id"/>
+            <field name="application_id"/>
+            <field name="ports_string"/>
+        </tree>
+    </field>
+</record>
+
+
+</data>
+</openerp>
