@@ -116,7 +116,7 @@ class ClouderImage(models.Model):
                 "where the version must be stored.",
             )
         now = datetime.now()
-        version = self.current_version + '.' + now.strftime('%Y%m%d.%H%M%S')
+        version = self.name + '.' + now.strftime('%Y%m%d.%H%M%S')
         self.env['clouder.image.version'].create({
             'image_id': self.id, 'name': version,
             'registry_id': self.registry_id and self.registry_id.id,
