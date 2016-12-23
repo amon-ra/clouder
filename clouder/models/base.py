@@ -81,7 +81,7 @@ class ClouderBase(models.Model):
     reset_id = fields.Many2one('clouder.base', 'Reset with this base')
     backup_ids = fields.Many2many(
         'clouder.service', 'clouder_base_backup_rel',
-        'base_id', 'backup_id', 'Backup services', required=True)
+        'base_id', 'backup_id', 'Backup services', required=False)
     public = fields.Boolean('Public?')
 
     @property

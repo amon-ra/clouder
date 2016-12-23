@@ -80,17 +80,20 @@
                         <field name="test"/>
                         <field name="reset_each_day"/>
                         <newline/>
+                        <field name="public"/>
+                    </group>
+                    <group col="4">
                         <field name="cert_key"/>
                         <field name="cert_cert"/>
-                        <newline/>
-                        <button name="generate_cert" string="Generate Certs" type="object" attrs="{'invisible': ['|','|',('cert_key','!=',False),('cert_cert','!=',False),('cert_renewal_date','!=',False)]}"/>
                         <field name="cert_renewal_date" attrs="{'invisible': [('cert_renewal_date','=',False)]}"/>
+                    </group>
+                    <group col="2">
+                        <button name="generate_cert" string="Generate Certs" type="object" attrs="{'invisible': ['|','|',('cert_key','!=',False),('cert_cert','!=',False),('cert_renewal_date','!=',False)]}"/>
                         <button name="renew_cert" string="Renewal Certs" type="object" attrs="{'invisible': [('cert_renewal_date','=',False)]}"/>
-                        <newline/>
+                    </group>
+                    <group col="3">
                         <field name="reset_id"/>
                         <button name="reset_base" string="Reset from parent" type="object" attrs="{'invisible': [('reset_id','=',False)]}"/>
-                        <newline/>
-                        <field name="public"/>
                     </group>
                     <notebook>
                         <page string="General">

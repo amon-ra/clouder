@@ -48,10 +48,14 @@ class ClouderImageVersion(models.Model):
         Property returning the address of the registry where is hosted
         the image version.
         """
-        return self.registry_id and '%s:%s' % (
-            self.registry_id.base_ids[0].fulldomainnode_id.ip,
-            self.registry_id.ports['http']['hostport'],
-        )
+        if self.registry_id.base_ids >0:
+            return self.registry_id and '%s:%s' % (
+                self.registry_id.base_ids[0].fulldomainnode_id.ip,
+                self.registry_id.ports['http']['hostport'],
+                )
+        else:
+            return self.registry_id and self.registry_id.node_id.ip + ':' + \
+            self.registry_id.ports['http']['hostport']
 
     @property
     def fullpath(self):

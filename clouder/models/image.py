@@ -72,7 +72,7 @@ class ClouderImage(models.Model):
 
         dockerfile.append(self.dockerfile or '')
 
-        volumes = [v.name for v in self.volume_ids]
+        volumes = [v.localpath for v in self.volume_ids]
         if volumes:
             dockerfile.append('\nVOLUME %s' % ' '.join(volumes))
 
