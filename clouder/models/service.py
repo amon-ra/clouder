@@ -953,6 +953,8 @@ class ClouderService(models.Model):
 
     @api.multi
     def create(self, vals):
+        import wdb
+        wdb.set_trace()
         vals = self.onchange_application_id_vals(vals)
         vals = self.onchange_image_id_vals(vals)
 
@@ -962,7 +964,7 @@ class ClouderService(models.Model):
         if vals['child_ids']:
             self = self.with_context(service_childs=vals['child_ids'])
             vals['child_ids'] = []
-        if vals['link_ids']:
+        if vals['link_ids'] and len(vals['link_ids']) > 0:
             self = self.with_context(service_links=vals['link_ids'])
             vals['link_ids'] = []
 

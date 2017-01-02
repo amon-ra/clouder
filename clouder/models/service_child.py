@@ -53,6 +53,8 @@ class ClouderServiceChild(models.Model):
         service = self.service_id
         self = self.with_context(autocreate=True)
         self.delete_child_exec()
+        import wdb
+        wdb.set_trace()
         self.env['clouder.service'].create({
             'environment_id': service.environment_id.id,
             'suffix': service.suffix + '-' + self.name.code,

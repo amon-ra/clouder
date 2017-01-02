@@ -184,11 +184,11 @@ class ClouderBase(models.Model):
         """
         if not re.match(r"^[\w\d-]*$", self.name):
             self.raise_error(
-                "Name can only contains letters, digits and -",
+                "Name can only contains letters, digits and -"
             )
         if not re.match(r"^[\w\d_.@-]*$", self.admin_name):
             self.raise_error(
-                "Admin name can only contains letters, digits and underscore",
+                "Admin name can only contains letters, digits and underscore"
             )
         if self.admin_email\
                 and not re.match(r"^[\w\d_.@-]*$", self.admin_email):

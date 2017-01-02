@@ -32,6 +32,7 @@ except ImportError:
     _logger.warning('Cannot `import paramiko`.')
 
 
+
 class ClouderModel(models.AbstractModel):
     """
     Define the clouder.model abstract object, which is inherited by most
@@ -333,7 +334,7 @@ class ClouderModel(models.AbstractModel):
 
     @api.multi
     def enqueue(self, name, action, clouder_job_id):
-        return
+        return true
 
     @api.multi
     def do_exec(self, action, job_id):

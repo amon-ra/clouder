@@ -26,5 +26,12 @@ class ClouderJob(models.Model):
     state = fields.Selection([
         ('started', 'Started'), ('done', 'Done'), ('failed', 'Failed')],
         'State', readonly=True, required=True, select=True)
-
+    # job_id = fields.Many2one('queue.job', 'Connector Job')
+    # job_state = fields.Selection([
+    #     ('pending', 'Pending'),
+    #     ('enqueud', 'Enqueued'),
+    #     ('started', 'Started'),
+    #     ('done', 'Done'),
+    #     ('failed', 'Failed')], 'Job State',
+    #     related='job_id.state', readonly=True)
     _order = 'create_date desc'
